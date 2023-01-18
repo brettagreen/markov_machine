@@ -32,7 +32,6 @@ class MarkovMachine {
         }
       }
     }
-    console.log(chain);
     return chain;
   }
 

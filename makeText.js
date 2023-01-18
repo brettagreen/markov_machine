@@ -3,8 +3,8 @@ const axios = require('axios');
 const striptags = require('striptags');
 const { MarkovMachine } = require("./markov");
 
-async function cat(path) {
-    await fs.readFile(path, 'utf8', function(err, data) {
+function cat(path) {
+    fs.readFile(path, 'utf8', function(err, data) {
         if (err) {
           // handle possible error
           console.error(err);
@@ -13,33 +13,23 @@ async function cat(path) {
         }
         // otherwise success
         const mm = new MarkovMachine(data);
-        phrase = mm.makeText();
-        console.log(phrase);
+        console.log(mm.makeText());
       });
 
 }
 
-async function webCat(url) {
-    const phrase = await axios.get(url).then(function(resp) {
+function webCat(url) {
+    axios.get(url).then(function(resp) {
         const mm = new MarkovMachine(striptags(resp.data));
-        return mm.makeText();
+        console.log(mm.makeText());
     })
     .catch(err => {
         console.log(err);
     })
-    return phrase;
 }
 
-(async () => {
-    if (process.argv[2] === 'file') {
-        console.log(await cat(process.argv[3]));
-    } else {
-        console.log(await webCat(process.argv[3]));
-    }
-
-})();
-
-module.exports = {
-    cat,
-    webCat
-  };
+if (process.argv[2] === 'file') {
+    cat(process.argv[3]);
+} else {
+    webCat(process.argv[3]);
+}
