@@ -32,12 +32,13 @@ class MarkovMachine {
         }
       }
     }
+    console.log(chain);
     return chain;
   }
 
   /** return random text from chains */
 
-  makeText(numWords = 100) {
+  makeText(numWords = 99) {
     let phrase = "";
     let keepGoing = true;
     let thisVal;
@@ -58,7 +59,7 @@ class MarkovMachine {
     while(keepGoing) {            
         nextVal = this.chain[thisVal][Math.floor(Math.random() * this.chain[thisVal].length)];
 
-        if (nextVal === null || phrase.split(" ").length > numWords) {
+        if (nextVal === null || phrase.split(" ").length === numWords) {
             keepGoing = false;
         } else {
             for (let x = 0; x < keys.length; x++) {
